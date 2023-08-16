@@ -66,14 +66,6 @@ class color_main():
         # 求均值
         # h, s, v = cv2.split(hsv)
         # h_mean, s_mean, v_mean = np.mean(h), np.mean(s), np.mean(v)
-'''
-        # 求最大值
-        hist_var = []
-        for i in range(3):
-            hist = cv2.calcHist([hsv], [i], None, [256], [0, 256])
-            hist_max = np.where(hist == np.max(hist))
-            hist_var.append(hist_max[0])
-'''
 
 def save_to_output_file(image_path, res):
     with open(output_file, 'a') as f:
