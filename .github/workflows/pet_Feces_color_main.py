@@ -76,8 +76,6 @@ def save_to_output_file(image_path, res):
 def labels_maker(animal_faeces_path):
     df = pd.read_excel(animal_faeces_path, sheet_name="宠物粪便")
     data = df.values
-    # print("before: \n")
-    # print(data)
 
     for index in range(402):
         Mtype = str(data[index][10])
@@ -92,7 +90,7 @@ def labels_maker(animal_faeces_path):
     return img_name_list, label_list
 
 if __name__ == '__main__':
-    # animal_faeces_path = "/home/gonglei/data/animal_faeces_cla/宠物智能识别系统信息采集_6.29返_.xlsx"
+    # animal_faeces_path = "/home/gonglei/data/animal_faeces_cla/宠物智能识别系统信息采集_.xlsx"
     input_folder = "/home/gonglei/data/animal_faeces_cla/crop_data/data/"
     label_path = "/home/gonglei/code/classify/classify/color_classify/labels_part.txt"
     output_file = '/home/gonglei/data/animal_faeces_cla/output_.txt'
@@ -114,7 +112,8 @@ if __name__ == '__main__':
             image, label = line.strip().split(" ")
             image_files.append(image)
             label_files.append(label)
-
+    dataset_length = len(image_files)
+    
     # image_files = [filename for filename in os.listdir(input_folder) if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
     #
     # image_files.sort()
@@ -129,7 +128,7 @@ if __name__ == '__main__':
                 count += 1
             save_to_output_file(image_path, res)
 
-    acc = count / 30.0
+    acc = count / dataset_length
     print(acc)
 
     # image_path = "/home/gonglei/data/animal_faeces_cla/crop_data/data/1_1_00320.jpg"
