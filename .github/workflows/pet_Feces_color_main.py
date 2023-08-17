@@ -115,7 +115,7 @@ if __name__ == '__main__':
     dataset_length = len(image_files)
     
     # image_files = [filename for filename in os.listdir(input_folder) if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
-    #
+    
     # image_files.sort()
 
     count = 0
