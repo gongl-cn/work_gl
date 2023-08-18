@@ -48,8 +48,42 @@ class color_main():
         }
 
         image = cv2.imread(image_path)
+        height, width, _ = image.shape
+        #img_crop = image[int(height / 2):int(height / 2) + 300, int(width / 2) :int(width / 2) + 300]
+
+
+
+        # # 定义滤波器大小
+        # filter_size = 3  # 例如使用3x3的滤波器
+        #
+        # # 对图像进行中值滤波
+        # filtered_image = cv2.medianBlur(img_crop, filter_size)
+
+        '''
+                # 定义滤波器大小
+        filter_size = 3  # 例如使用3x3的滤波器
+
+        # 对图像进行均值滤波
+        filtered_image = cv2.blur(img_crop, (filter_size, filter_size))
+        '''
+
+
+        # 定义滤波器大小和标准差
+        filter_size = 5  # 例如使用5x5的滤波器
+        sigma = 1.0  # 高斯核标准差
+
+        # 对图像进行高斯滤波
+        filtered_image = cv2.GaussianBlur(image, (filter_size, filter_size), sigma)
+
+        kernel = np.ones((10, 10), np.uint8)
+        # 进行腐蚀操作
+        eroded_image = cv2.erode(filtered_image, kernel, iterations=1)
+        # 进行图像膨胀
+        dilated_image = cv2.dilate(eroded_image, kernel, iterations=1)
+
+
         # 将图像转换为hsv格式
-        image_hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        image_hsv = cv2.cvtColor(dilated_image, cv2.COLOR_BGR2HSV)
 
         # 调整图像大小以加快聚类过程
         resized_image = cv2.resize(image_hsv, (50, 50))
@@ -78,11 +112,8 @@ class color_main():
 
         # 得到出现次数最多的颜色
         best_color = max(color_counts, key=color_counts.get)
+        print(f"{color_counts}")
         return best_color
-
-
-
-
 
 
 def save_to_output_file(image_path, res):
@@ -109,9 +140,9 @@ def labels_maker(animal_faeces_path):
 
 if __name__ == '__main__':
 
-    input_folder = "./new_data"
-    label_path = "./label.txt"
-    output_file = 'output.txt'
+    input_folder = "./51-302"
+    label_path = "./51-302.txt"
+    output_file = 'output_252.txt'
 
     open(output_file, 'w').close()
 
@@ -137,6 +168,6 @@ if __name__ == '__main__':
                 count += 1
             save_to_output_file(image_path, res)
 
-    acc = count / 100.0
+    acc = count / 252.0
     print(acc)
 
